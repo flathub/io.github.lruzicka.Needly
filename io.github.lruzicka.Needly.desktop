@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Needly
+GenericName=OpenQA Needle Editor
+Comment=Create and edit needles for openQA testing
+Icon=io.github.lruzicka.Needly
+Exec=needly
+Terminal=false
+Categories=Development;GUIDesigner;
+Keywords=openqa;testing;needle;editor;
+StartupNotify=true
