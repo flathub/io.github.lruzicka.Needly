@@ -1,11 +1,10 @@
-name: tkinter
+# python3-tkinter.yaml
+name: python3-tkinter
 buildsystem: simple
 build-commands:
-  - pip3 install --no-index --no-build-isolation --no-deps --prefix=${FLATPAK_DEST} .
-sources:
-  - type: git
-    url: https://github.com/iwalton3/tkinter-standalone
-    commit: ba946536054f9d27a08aafde21aa18330ce05729
+  # This module is just an “umbrella”; nothing to install here.
+  - true
+
 modules:
   - name: tcl
     buildsystem: autotools
@@ -20,11 +19,7 @@ modules:
       - type: archive
         url: https://prdownloads.sourceforge.net/tcl/tcl8.6.12-src.tar.gz
         sha256: 26c995dd0f167e48b11961d891ee555f680c175f7173ff8cb829f4ebcde4c1a6
-        x-checker-data:
-          type: anitya
-          project-id: 4941
-          stable-only: true
-          url-template: https://prdownloads.sourceforge.net/tcl/tcl$version-src.tar.gz
+
   - name: tk
     buildsystem: autotools
     subdir: unix
@@ -38,8 +33,37 @@ modules:
       - type: archive
         url: https://prdownloads.sourceforge.net/tcl/tk8.6.12-src.tar.gz
         sha256: 12395c1f3fcb6bed2938689f797ea3cdf41ed5cb6c4766eec8ac949560310630
-        x-checker-data:
-          type: anitya
-          project-id: 11426
-          stable-only: true
-          url-template: https://prdownloads.sourceforge.net/tcl/tk$version-src.tar.gz
+
+  - name: cpython-tkinter
+    buildsystem: simple
+    build-options:
+      env:
+        PKG_CONFIG_PATH: "/app/lib/pkgconfig:/app/share/pkgconfig"
+        LD_LIBRARY_PATH: "/app/lib"
+    build-commands:
+      # Ensure we match the SDK’s python series
+      - python3 -c 'import sys; assert sys.version_info[:2] == (3,12), sys.version'
+
+      - PYVER="$(python3 -c 'import sys; print(f"{sys.version_info[0]}.{sys.version_info[1]}")')"
+      - SITE="/app/lib/python${PYVER}/site-packages"
+      - mkdir -p "${SITE}"
+
+      - export CPPFLAGS="-I/app/include"
+      - export LDFLAGS="-L/app/lib"
+
+      - ./configure --prefix=/tmp/cpython-prefix --with-ensurepip=no
+      - make -j "${FLATPAK_BUILDER_N_JOBS}"
+
+      # Install the python package part
+      - cp -a Lib/tkinter "${SITE}/"
+
+      # Install the compiled extension
+      - TKSO="$(find build -type f -name '_tkinter*.so' -print -quit || true)"
+      - if [ -z "${TKSO}" ]; then TKSO="$(find . -type f -path '*/lib-dynload/_tkinter*.so' -print -quit || true)"; fi
+      - if [ -z "${TKSO}" ]; then echo "ERROR: _tkinter .so not found (Tcl/Tk detection failed)"; exit 1; fi
+      - install -m 0755 "${TKSO}" "${SITE}/"
+
+    sources:
+      - type: archive
+        url: https://www.python.org/ftp/python/3.12.12/Python-3.12.12.tgz
+        sha256: 487c908ddf4097a1b9ba859f25fe46d22ccaabfb335880faac305ac62bffb79b

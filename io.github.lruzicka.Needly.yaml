@@ -4,7 +4,7 @@ app-id: io.github.lruzicka.Needly
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
-command: needly
+command: needly-wrapper
 finish-args:
    - --share=ipc # For X11
    - --socket=x11 # Enable communication over X11
@@ -102,6 +102,9 @@ modules:
     - type: file
       url: https://files.pythonhosted.org/packages/d4/05/87b9c9c6f1391dd0a2c17e484c32352f2b5d1e659f431f43eb49f35f7e52/needly-2.5.61-py3-none-any.whl
       sha256: 59753a87cca5417fd8dfa5b05c1ee59970c1c7996ea562dff999eb306f71227a
+    - type: file
+      path: bundle/needly-wrapper
+      dest-filename: needly-wrapper
     - type: file
       path: bundle/io.github.lruzicka.Needly.png
     - type: file

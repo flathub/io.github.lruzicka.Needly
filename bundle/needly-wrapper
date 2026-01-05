@@ -1,0 +1,5 @@
+#!/bin/sh
+export TCL_LIBRARY=/app/lib/tcl8.6
+export TK_LIBRARY=/app/lib/tk8.6
+exec /app/bin/needly "$@"
+
