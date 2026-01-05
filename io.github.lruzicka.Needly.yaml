@@ -50,11 +50,23 @@ modules:
       url: https://github.com/thkukuk/rpcsvc-proto/archive/v1.4.1.tar.gz
       sha256: 750f7e57b81407a25b707867e90d7ee80aeb53bf515b114fc218f3c78dc9a6e8
 
+  # Libtirpc
+  - name: libtirpc
+    buildsystem: autotools
+    config-opts:
+      - --disable-gssapi
+      - --libdir=/app/lib
+    sources:
+      - type: archive
+        url: https://downloads.sourceforge.net/sourceforge/libtirpc/libtirpc-1.3.2.tar.bz2
+        sha256: e24eb88b8ce7db3b7ca6eb80115dd1284abc5ec32a8deccfed2224fc2532b9fd
+
   # Libvirt
   - name: libvirt
     buildsystem: meson
     build-options:
-    - cflags: -I/app/include/tirpc -ltirpc
+      cflags: -I/app/include/tirpc
+      ldflags: -L/app/lib -ltirpc
     config-opts:
       - --localstatedir=/var
     sources:
