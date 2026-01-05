@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.lruzicka.Needly</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <name>Needly</name>
+  <summary>Python Needle Editor for openQA</summary>
+  <description>
+    <p>
+      Needly is an openQA needle editor written in Python. It creates or modifies needles for openQA tests.
+    </p>
+    <p>
+      The openQA needle consists of two files: a PNG screenshot and a JSON definition file. The definition
+      file provides various information to the openQA engine, including tags, types, and areas to look for.
+      Users can use this application to edit (or create) all the necessary information quickly and draw the
+      areas using the built-in WYSIWYG editor. When the needle is saved, it is fully compatible with the
+      openQA engine.
+    </p>
+    <p>
+      The advantage of the editor is that it does not need openQA to be installed on the system. The needle
+      files are all you need to work with them.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>WYSIWYG needle editor</li>
+      <li>Create and edit openQA test needles</li>
+      <li>Screenshot handling</li>
+      <li>Virtual machine screenshot capture via libvirt</li>
+      <li>Support for multiple areas in a single needle</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">io.github.lruzicka.Needly.desktop</launchable>
+  <url type="homepage">https://github.com/lruzicka/needly</url>
+  <url type="bugtracker">https://github.com/lruzicka/needly/issues</url>
+  <url type="vcs-browser">https://github.com/lruzicka/needly</url>
+  <developer id="io.github.lruzicka">
+    <name>Lukáš Růžička</name>
+  </developer>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="2.5.93" date="2025-01-05">
+      <description>
+        <p>Latest release of Needly</p>
+      </description>
+    </release>
+  </releases>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Needly main window</caption>
+      <image>https://github.com/lruzicka/needly/blob/master/needly/screens/needly.png?raw=true</image>
+    </screenshot>
+  </screenshots>
+</component>
